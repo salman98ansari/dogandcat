@@ -1,5 +1,5 @@
 import os
-os.chdir('C:\\Users\\Salman\\Desktop\\Images\\FEMALE') #path to folder
+os.chdir('C:\\Users\\Salman\\Desktop\\imgs\\FEMALE') #path to folder
 i=1
 for file in os.listdir():
       src=file

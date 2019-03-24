@@ -4,12 +4,12 @@ import os
 from random import shuffle
 from tqdm import tqdm
 
-TRAIN_DIR ='C:\\Users\\Salman\\Documents\\train'
-TEST_DIR='C:\\Users\\Salman\\Documents\\test'
+TRAIN_DIR ='C:\\Users\\Salman\\Documents\\dogandcat\\train'
+TEST_DIR='C:\\Users\\Salman\\Documents\\dogandcat\\test'
 IMG_SIZE =50
 LR =1e-3
 
-MODEL_NAME = 'dogsvscats-{}-{}.model'.format(LR,'2conv-basic-video') 
+MODEL_NAME = 'dogsvscats-{}-{}.model'.format(LR,'6conv-basic-video') 
 #dog.93.png
 def label_img(img):
     word_label = img.split('.')[-3]
@@ -46,7 +46,22 @@ from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.estimator import regression
 
+import tensorflow as tf
+tf.reset_default_graph()
+
 convnet = input_data(shape=[None, IMG_SIZE, IMG_SIZE, 1], name='input')
+
+convnet = conv_2d(convnet, 32, 5, activation='relu')
+convnet = max_pool_2d(convnet, 5)
+
+convnet = conv_2d(convnet, 64, 5, activation='relu')
+convnet = max_pool_2d(convnet, 5)
+
+convnet = conv_2d(convnet, 32, 5, activation='relu')
+convnet = max_pool_2d(convnet, 5)
+
+convnet = conv_2d(convnet, 64, 5, activation='relu')
+convnet = max_pool_2d(convnet, 5)
 
 convnet = conv_2d(convnet, 32, 5, activation='relu')
 convnet = max_pool_2d(convnet, 5)
@@ -81,12 +96,7 @@ model.fit({'input': X}, {'targets': Y}, n_epoch=5, validation_set=({'input': tes
     snapshot_step=500, show_metric=True, run_id=MODEL_NAME)
 
 
-
-
-
-
-
-
+model.save(MODEL_NAME)
 
 
 
